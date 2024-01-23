@@ -84,5 +84,5 @@ def remove_between_words(Polarstring, start_word, end_word):
     return re.sub(pattern, "", Polarstring)
 
 
-  
+
 
