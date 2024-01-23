@@ -1,5 +1,6 @@
 import os
 from django.core.files.storage import FileSystemStorage
+import re
 
 updatedNewFile = ""
 
@@ -59,30 +60,29 @@ def test(testfile):
 
 
 def search_file(file, start_word_1, end_word_1, start_word_2, end_word_2):
-    print("function search file '<Creator', '</Creator>', '<Author', '</Author>'")
-    myfile = str.file
+    print("searching the file {} , {} , {} , {}".format(start_word_1, end_word_1, start_word_2, end_word_2))
+    myfile = file
     # Check if the file path exists
-    if not os.path.exists(myfile):
+    if not myfile:
         print("Error: File not found:", myfile)
         return
+    myPolarstring = ''
+    Garmin_text = ''
+    with myfile.open('rb') as f:
+        for line in f:
+            myPolarstring = line.decode('utf-8')
+    print(myPolarstring)
+    # Replace 'start_word' and 'end_word' with your actual words
+    new_text = remove_between_words(myPolarstring, start_word_1, end_word_1)
+    Garmin_text = remove_between_words(new_text, start_word_2, end_word_2)
+    print(Garmin_text)
 
-    # Open the file in binary mode
-    try:
-        with myfile.open('rb') as f:
-            # Iterate over each line of the file
-            for l_no, line in enumerate(f):
-                # Search for the keywords
-                if start_word_1 in line and end_word_1 in line:
-                    print(f'{start_word_1} and {end_word_1} found in a file')
-                    print('Line Number:', l_no)
-                    print('Text Between:', line[line.find(start_word_1):line.find(end_word_1) + len(end_word_1)])
+def remove_between_words(Polarstring, start_word, end_word):
+    print(Polarstring)
+    pattern = r"(?<=%s)(.*?)(?=%s)" % (start_word, end_word)
+    print(pattern)
+    return re.sub(pattern, "", Polarstring)
 
-                if start_word_2 in line and end_word_2 in line:
-                    print(f'{start_word_2} and {end_word_2} found in a file')
-                    print('Line Number:', l_no)
-                    print('Text Between:', line[line.find(start_word_2):line.find(end_word_2) + len(end_word_2)])
-    except FileNotFoundError as e:
-        print("Error:", e)
-        print("Error opening file:", myfile)
-    print("search_sr is done")
+
+  
 
