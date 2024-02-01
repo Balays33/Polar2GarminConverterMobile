@@ -23,8 +23,11 @@ def index(request):
             for line in f:
                 print(line)
         """
+
         #convert.test(myfile)
-        convert.search_file(myfile,'<Creator', '</Creator>', '<Author', '</Author>')
+        if convert.filename_extension_Checker(myfile) == True:
+            convert.search_file(myfile,'<Creator', '</Creator>', '<Author', '</Author>')
+
 
     return render(request, 'Polar2GarminC/index.html', context={'hello': 'world'})
 
