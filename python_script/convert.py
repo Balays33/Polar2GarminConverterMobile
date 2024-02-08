@@ -1,5 +1,9 @@
 import re
 
+import os
+from django.core.files.storage import FileSystemStorage
+import sys
+
 
 
 
@@ -31,14 +35,22 @@ def search_file(file, start_word_1, end_word_1, start_word_2, end_word_2):
     new_text = remove_between_words(myPolarstring, start_word_1, end_word_1)
     Garmin_text = remove_between_words(new_text, start_word_2, end_word_2)
     file_write(Garmin_text)
+    """
+    returned_file_save = 
+    filesystem = FileSystemStorage()
+    filename = filesystem.save(returned_file_save.name, returned_file_save)
+    saved_New_Polar_file_url = filesystem.url(filename)
+    print("new Polar file name:" + filename)
+    print("saved_New_Polar_file_url: " + saved_New_Polar_file_url)
+    """
     #print(Garmin_text)
 
 
 
 def remove_between_words(Polarstring, start_word, end_word):
-    print(Polarstring)
+    #print(Polarstring)
     pattern = r"(?<=%s)(.*?)(?=%s)" % (start_word, end_word)
-    print(pattern)
+    #print(pattern)
     return re.sub(pattern, "", Polarstring)
 
 def file_write(updateinfo):
